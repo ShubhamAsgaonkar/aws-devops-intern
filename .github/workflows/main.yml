@@ -13,11 +13,11 @@ jobs:
       - name: Install dependencies (optional)
         
         run: |
-          sudo apt update  
-          pwd
+          sudo apt update
 
       - name: Update application code on EC2
         run: |
+          pwd
           cd hello/aws-devops-intern
 
           git pull origin main
