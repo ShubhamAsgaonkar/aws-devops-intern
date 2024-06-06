@@ -18,7 +18,7 @@ jobs:
       - name: Update application code on EC2
         run: |
         
-          cd aws-devops-intern
+          cd aws-devops-intern/
 
           git pull origin main
           
