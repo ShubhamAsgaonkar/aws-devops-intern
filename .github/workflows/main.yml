@@ -17,7 +17,8 @@ jobs:
 
       - name: Update application code on EC2
         run: |
-          cd /hello/  
+          cd /home/ubuntu/hello/aws-devops-intern
+
           git pull origin main
 
       - name: Create Gunicorn service file (optional)
