@@ -8,4 +8,6 @@ sudo apt install git
 
 sudo apt install nginx
 
+pip install gunicorn
+
 pip install Flask
