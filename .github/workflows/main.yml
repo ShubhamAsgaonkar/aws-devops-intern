@@ -14,6 +14,7 @@ jobs:
         
         run: |
           sudo apt update  
+          ls
 
       - name: Update application code on EC2
         run: |
