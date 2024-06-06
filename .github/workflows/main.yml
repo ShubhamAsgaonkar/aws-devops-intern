@@ -19,9 +19,7 @@ jobs:
         run: |
           cd ..
           cd ..
-          cd hello/aws-devops-intern
-
-          git pull origin main
+          pwd
 
       - name: Create Gunicorn service file (optional)
         run: |
