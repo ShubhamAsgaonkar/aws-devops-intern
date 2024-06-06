@@ -1,0 +1,55 @@
+name: aws-asignment
+on:
+  push:
+    branches:
+    - devops
+jobs:
+    deploy:
+      runs-on: ubuntu-latest
+
+      steps:
+      - uses: actions/checkout@v3  # Checkout the repository code
+
+      - name: Install dependencies (optional)
+        
+        run: |
+          sudo apt update  
+          sudo apt install awscli  
+
+      - name: Configure AWS Credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          aws configure set default.region ap-south-1a	
+
+      - name: SSH into EC2 instance
+        uses: appleboy/ssh-action@master  
+        with:
+          host: 13.234.240.184
+          username: ubuntu  
+          key: ${{ secrets.SSH_DEPLOY_KEY }} 
+
+      - name: Update application code on EC2
+        run: |
+          cd /hello/  
+          git pull origin main
+
+      - name: Create Gunicorn service file (optional)
+        run: |
+          echo '... (Gunicorn service file content) ...' > gunicorn.service 
+          sudo mv gunicorn.service /etc/systemd/system/ 
+      - name: Reload systemd (if using a Gunicorn service file)
+        run: |
+          sudo systemctl daemon-reload
+
+      - name: Start or Restart Gunicorn service (if using a Gunicorn service file)
+        run: |
+          sudo systemctl start gunicorn.service  # Start the service (or 'restart' for existing service)
+
+      - name: Reload Nginx configuration
+        run: |
+          sudo nginx -s reload
+ 
